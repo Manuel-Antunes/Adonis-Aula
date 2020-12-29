@@ -1,6 +1,14 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  column,
+  belongsTo,
+  BelongsTo,
+  manyToMany,
+  ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
+import Tag from './Tag'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -17,6 +25,9 @@ export default class Post extends BaseModel {
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
+
+  @manyToMany(() => Tag, { pivotTable: 'post_tags' })
+  public tags: ManyToMany<typeof Tag>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

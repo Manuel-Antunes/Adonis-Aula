@@ -8,7 +8,7 @@ export default class PostsController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const data = request.only(['title', 'content', 'user_id'])
+    const data = request.only(['title', 'content', 'userId'])
     const post = await Post.create(data)
     return post
   }
@@ -25,7 +25,7 @@ export default class PostsController {
 
   public async update({ request, response, params }: HttpContextContract) {
     try {
-      const data = request.only(['title', 'content', 'user_id'])
+      const data = request.only(['title', 'content', 'userId'])
       const post = await Post.findOrFail(params.id)
       post.merge(data)
       await post.save()

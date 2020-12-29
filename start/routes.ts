@@ -24,6 +24,7 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.resource('users', 'UserController').apiOnly()
-Route.resource('posts', 'PostController').apiOnly()
+Route.resource('users', 'UsersController').apiOnly()
+Route.resource('posts', 'PostsController').apiOnly()
+Route.resource('tags', 'TagsController').apiOnly()
 Route.get('/users/:user_id/posts', 'UserPostsController.index')

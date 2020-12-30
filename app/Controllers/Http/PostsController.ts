@@ -3,20 +3,21 @@ import Post from 'App/Models/Post'
 
 export default class PostsController {
   public async index() {
-    const posts = await Post.query().preload('user')
+    const posts = await Post.query().preload('user').preload('attachment')
     return posts
   }
 
   public async store({ request }: HttpContextContract) {
-    const data = request.only(['title', 'content', 'userId'])
-    const post = await Post.create(data)
+    const data = request.only(['title', 'content', 'mediaId'])
+    const post = await Post.create({ ...data, userId: request.userId })
     return post
   }
 
-  public async show({ params, response }: HttpContextContract) {
+  public async show({ params, response, request }: HttpContextContract) {
     try {
       const post = await Post.findOrFail(params.id)
       await post.load('user')
+      await post.load('attachment')
       return post
     } catch (error) {
       return response.status(error.status).send({ error: { message: 'post not found' } })
@@ -25,7 +26,7 @@ export default class PostsController {
 
   public async update({ request, response, params }: HttpContextContract) {
     try {
-      const data = request.only(['title', 'content', 'userId'])
+      const data = request.only(['title', 'content', 'userId', 'mediaId'])
       const post = await Post.findOrFail(params.id)
       post.merge(data)
       await post.save()

@@ -25,7 +25,13 @@ Route.get('/', async () => {
 })
 
 Route.resource('users', 'UsersController').apiOnly()
-Route.resource('posts', 'PostsController').apiOnly()
-Route.resource('tags', 'TagsController').apiOnly()
-Route.get('/users/:user_id/posts', 'UserPostsController.index')
-Route.resource('posts.tags', 'PostTagsController').apiOnly()
+Route.group(() => {
+  Route.resource('posts', 'PostsController').apiOnly()
+  Route.resource('tags', 'TagsController').apiOnly()
+  Route.get('/users/:user_id/posts', 'UserPostsController.index')
+  Route.resource('posts.tags', 'PostTagsController').apiOnly()
+  Route.post('/media', 'MediaController.store')
+  Route.get('/media/:id', 'MediaController.show')
+}).middleware('auth')
+Route.post('/sessions', 'SessionsController.store')
+Route.resource('testes', 'TestesController').apiOnly()

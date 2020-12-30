@@ -1,0 +1,9 @@
+import Mongo from '@ioc:Adonis/Addons/Mongo'
+
+const {{filename}}Schema = new Mongo.Schema({
+
+}, {
+  timestamps: true
+});
+
+export default Mongo.model("{{filename}}", {{filename}}Schema);

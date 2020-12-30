@@ -9,6 +9,7 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 import Tag from './Tag'
+import Media from './Media'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -28,6 +29,12 @@ export default class Post extends BaseModel {
 
   @manyToMany(() => Tag, { pivotTable: 'post_tags' })
   public tags: ManyToMany<typeof Tag>
+
+  @column()
+  public mediaId: number
+
+  @belongsTo(() => Media)
+  public attachment: BelongsTo<typeof Media>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
